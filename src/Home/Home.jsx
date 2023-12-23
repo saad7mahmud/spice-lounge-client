@@ -1,9 +1,13 @@
 import ThemeSwitcher from "../Theme/ThemeSwitcher";
+import Banner from "./Banner";
 
 const Home = () => {
-    return <div>
+  return (
+    <div>
       <ThemeSwitcher></ThemeSwitcher>
-  </div>;
+      <Banner></Banner>
+    </div>
+  );
 };
 
 export default Home;
