@@ -3,20 +3,20 @@ import { useContext } from "react";
 import { AuthContext } from "../Auth/AuthProvider";
 
 const Navbar = () => {
-    const { user, logOut } = useContext(AuthContext);
-    const navigate = useNavigate();
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
   console.log("user:", user);
 
-    const handleLogOut = () => {
-      logOut()
-        .then((result) => {
-          console.log(result);
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+  const handleLogOut = () => {
+    logOut()
+      .then((result) => {
+        console.log(result);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const navLinks = (
     <>
@@ -50,7 +50,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/dashboard"
+          to="/dashboard/profile"
           className={({ isActive, isPending }) =>
             isPending
               ? "pending"

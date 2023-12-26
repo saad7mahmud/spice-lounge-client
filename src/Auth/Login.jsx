@@ -2,14 +2,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "./AuthProvider";
-// import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const Login = () => {
   const { googleSignIn, logIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-//   const axiosPublic = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
 
   const handleGoogle = () => {
     googleSignIn()
@@ -22,19 +22,37 @@ const Login = () => {
         });
         console.log(result.user);
 
-        // // Send this user to DB
-        // const userInfo = {
-        //   email: result?.user?.email,
-        //   name: result?.user?.displayName,
-        //   photo: result?.user?.photoURL,
-        //   role: "user",
-        //   isFraud: "no",
-        // };
-        // console.log(userInfo);
-        // axiosPublic.post("/users", userInfo).then((res) => {
-        //   console.log(res.data);
+        // Send this user to DB
+
+        function generateHexCode() {
+          // Generate a random 16-digit hexadecimal number
+          const hexCode = Array.from({ length: 16 }, () =>
+            Math.floor(Math.random() * 16).toString(16)
+          ).join("");
+
+          return hexCode.toUpperCase(); // Convert to uppercase for consistency
+        }
+
+        const randomHexCode = generateHexCode();
+        console.log(randomHexCode);
+
+        const currentDateTimeInMs = new Date().getTime();
+        const currentDate = new Date();
+
+        const userInfo = {
+          userID: randomHexCode,
+          userEmail: result?.user?.email,
+          userName: result?.user?.displayName,
+          userPhoto: result?.user?.photoURL,
+          userRole: "customer",
+          timeInMS: currentDateTimeInMs,
+          currentDate: currentDate,
+        };
+        console.log("users info google", userInfo);
+        axiosPublic.post("/users", userInfo).then((res) => {
+          console.log(res.data);
           navigate(from, { replace: true });
-        // });
+        });
       })
       .catch((error) => {
         Swal.fire({
