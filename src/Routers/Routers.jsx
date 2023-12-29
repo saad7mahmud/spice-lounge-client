@@ -8,6 +8,11 @@ import Dashboard from "../Dashboard/Dashboard";
 import AddFood from "../Dashboard/Manager/AddFood";
 import UserProfile from "../Dashboard/UserProfile";
 import AllFoods from "../Home/AllFoods";
+import AllUsers from "../Dashboard/Admin/AllUsers";
+import MyOrders from "./../Dashboard/Customer/MyOrders";
+import FoodList from "./../Dashboard/Manager/FoodList";
+import SaleHistory from "../Dashboard/Cashier/SaleHistory";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -35,15 +40,41 @@ export const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoutes>
+        <Dashboard></Dashboard>
+      </PrivateRoutes>
+    ),
     children: [
       {
         path: "profile",
         element: <UserProfile></UserProfile>,
       },
       {
+        path: "my-orders",
+        element: <MyOrders></MyOrders>,
+      },
+      {
+        path: "all-users",
+        element: <AllUsers></AllUsers>,
+      },
+      // Manager
+      {
         path: "add-food",
         element: <AddFood></AddFood>,
+      },
+      {
+        path: "food-list",
+        element: <FoodList></FoodList>,
+      },
+      {
+        path: "order-list",
+        element: <FoodList></FoodList>,
+      },
+      // Cashier
+      {
+        path: "sale-history",
+        element: <SaleHistory></SaleHistory>,
       },
     ],
   },

@@ -31,10 +31,27 @@ const FeaturedFood = () => {
                 <div className="flex flex-row-reverse items-center gap-3">
                   <div>
                     {" "}
+                    <p className="">ID: {food.foodID}</p>
                     <p className="">manager Name: {food.managerName}</p>
                     <p className="">manager Mail: {food.managerEmail}</p>
+                    <p className="">Desc: {food.foodDescription}</p>
+                    <p className="">Price: {food.foodPrice}</p>
+                    <p className="">Cat: {food.foodCategory}</p>
+                    <p className="">
+                      Added On:{" "}
+                      {new Date(food?.currentDate).toLocaleString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        // timeZoneName: "short",
+                      })}
+                    </p>
+                    <p className="">Price: BDT {food.foodPrice}</p>
                   </div>
-                  <div className="mask mask-squircle w-12 h-12">
+                  <div className="mask  w-12 h-12">
                     <img
                       src={food.managerImage}
                       alt="Avatar Tailwind CSS Component"
@@ -43,7 +60,7 @@ const FeaturedFood = () => {
                 </div>
 
                 <div className="card-actions ">
-                  <Link to={`/all-featuredFoods/${food.foodID}`}>
+                  <Link to={`/all-foods/${food.foodID}`}>
                     {" "}
                     <button className="btn w-full btn-neutral">Details</button>
                   </Link>

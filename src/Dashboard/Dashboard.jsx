@@ -4,9 +4,22 @@ import {
   IoFastFoodOutline,
   IoHomeOutline,
   IoPersonOutline,
+  IoCart,
+  IoFastFood,
+  IoListOutline,
+  IoLogoUsd,
 } from "react-icons/io5";
+import useAdmin from "../Hooks/useAdmin";
+import useManager from "../Hooks/useManager";
+import useCustomer from "../Hooks/useCustomer";
+import useCashier from "../Hooks/useCashier";
 
 const Dashboard = () => {
+  const [isAdmin, isLoadingAdmin] = useAdmin();
+  const [isManager, isLoadingManager] = useManager();
+  const [isCashier, isLoadingCashier] = useCashier();
+  const [isCustomer, isLoadingCustomer] = useCustomer();
+  console.log("Admin", isAdmin);
   return (
     <div>
       <div>
@@ -20,12 +33,62 @@ const Dashboard = () => {
                   My Profile
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/dashboard/add-food">
-                  <IoFastFoodOutline />
-                  Add Food
-                </NavLink>
-              </li>
+              {isCustomer ? (
+                <li>
+                  <NavLink to="/dashboard/my-orders">
+                    <IoCart />
+                    My Orders
+                  </NavLink>
+                </li>
+              ) : (
+                ""
+              )}
+            
+              {isManager ? (
+                <>
+                  <li>
+                    <NavLink to="/dashboard/add-food">
+                      <IoFastFoodOutline />
+                      Add Food
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/food-list">
+                      <IoFastFood />
+                      Food List
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/order-list">
+                      <IoListOutline />
+                      Order List
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                ""
+              )}
+              {isCashier ? (
+                <li>
+                  <NavLink to="/dashboard/sale-history">
+                    <IoLogoUsd />
+                    Sale History
+                  </NavLink>
+                </li>
+              ) : (
+                ""
+              )}
+
+              {isAdmin ? (
+                <li>
+                  <NavLink to="/dashboard/all-users">
+                    <IoFastFoodOutline />
+                    All Users
+                  </NavLink>
+                </li>
+              ) : (
+                ""
+              )}
             </ul>
             <hr className="m-5" />
             <div className="menu">
@@ -37,7 +100,7 @@ const Dashboard = () => {
                     Home
                   </NavLink>
                 </li>
-              </ul> 
+              </ul>
             </div>
           </div>
           <div className="p-9 mx-auto">

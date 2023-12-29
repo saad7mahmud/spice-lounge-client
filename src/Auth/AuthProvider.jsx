@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import Swal from "sweetalert2";
 import { app } from "./firebase.config";
-// import useAxiosPublic from "../Hooks/useAxiosPublic";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
@@ -22,7 +22,7 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const axiosPublic = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
 
   // Create User by email and pass
   const createUser = (email, password) => {
@@ -90,21 +90,22 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
 
       // jwt
-      // if (currentUser) {
-      //   const userInfo = { email: currentUser.email };
-      //   axiosPublic.post("/jwt", userInfo).then((res) => {
-      //     if (res.data.token) {
-      //       localStorage.setItem("access-token", res.data.token);
-      //     }
-      //   });
-      // } else {
-      //   localStorage.removeItem("access-token");
-      // }
+      if (currentUser) {
+        const userInfo = { email: currentUser.email };
+        console.log("user infooo", userInfo);
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
+      } else {
+        localStorage.removeItem("access-token");
+      }
 
       setLoading(false);
       console.log("user:", user);
     });
-  }, [user]);
+  }, [user, axiosPublic]);
 
   // Google Sign In
   const provider = new GoogleAuthProvider();
