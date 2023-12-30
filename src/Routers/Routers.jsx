@@ -15,6 +15,8 @@ import SaleHistory from "../Dashboard/Cashier/SaleHistory";
 import PrivateRoutes from "./PrivateRoutes";
 import FoodDetails from "./../Pages/FoodDetails";
 import OrderList from "../Dashboard/Manager/OrderList";
+import AdminFoodList from "../Dashboard/Admin/AdminFoodList";
+import AdminOrderList from "../Dashboard/Admin/AdminOrderList";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +67,14 @@ export const router = createBrowserRouter([
       {
         path: "all-users",
         element: <AllUsers></AllUsers>,
+      },
+      {
+        path: "manage-food-list",
+        element: <AdminFoodList></AdminFoodList>,
+      },
+      {
+        path: "manage-order-list",
+        element: <AdminOrderList></AdminOrderList>,
       },
       // Manager
       {

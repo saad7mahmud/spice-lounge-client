@@ -101,7 +101,7 @@ const AddFood = () => {
           timer: 1500,
         });
         // form.reset();
-        // navigate("/dashboard/profile");
+        navigate("/dashboard/food-list");
       });
     } catch (error) {
       console.error(

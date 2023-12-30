@@ -1,8 +1,16 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../Auth/AuthProvider";
+import useAdmin from "../Hooks/useAdmin";
+import useManager from "../Hooks/useManager";
+import useCashier from "../Hooks/useCashier";
+import useCustomer from "../Hooks/useCustomer";
 
 const UserProfile = () => {
   const { user } = useContext(AuthContext);
+  const [isAdmin, isLoadingAdmin] = useAdmin();
+  const [isManager, isLoadingManager] = useManager();
+  const [isCashier, isLoadingCashier] = useCashier();
+  const [isCustomer, isLoadingCustomer] = useCustomer();
   console.log(user);
   return (
     <div>
@@ -20,7 +28,10 @@ const UserProfile = () => {
             <p>{user?.email}</p>
             <div className="card-actions">
               <a className="rounded-lg my-6 bg-[#00a28f] py-3 px-6 text-white">
-                Role Here
+                {isAdmin ? "ADMIN" : ""}
+                {isManager ? "MANAGER" : ""}
+                {isCashier ? "CASHIER" : ""}
+                {isCustomer ? "CUSTOMER" : ""}
               </a>
             </div>
           </div>

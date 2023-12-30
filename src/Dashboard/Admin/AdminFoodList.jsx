@@ -1,11 +1,10 @@
-import React from "react";
-import useManagerFoods from "../../Hooks/useManagerFoods";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAdminFoodList from "../../Hooks/useAdminFoodList";
 
-const FoodList = () => {
-  const [managerFoods, refetchFoods, isLoadingFoods] = useManagerFoods();
-  console.log(managerFoods);
+const AdminFoodList = () => {
+  const [adminFoods, refetchFoods, isLoadingFoods] = useAdminFoodList();
+  console.log(adminFoods);
   const axiosSecure = useAxiosSecure();
 
   // Delete Food
@@ -53,7 +52,7 @@ const FoodList = () => {
         ) : (
           <>
             <div>
-              Food List: {managerFoods.length}
+              Food List: {adminFoods.length}
               <div>
                 <div className="overflow-x-auto">
                   <table className="table">
@@ -67,38 +66,38 @@ const FoodList = () => {
                     </thead>
                     <tbody>
                       {/* row 1 */}
-                      {managerFoods.map((managerFood, idx) => (
+                      {adminFoods.map((adminFood, idx) => (
                         <tr key={idx}>
                           <td>{idx + 1}</td>
                           <td>
                             <div className="flex items-center gap-3">
                               <div className="avatar">
                                 <div className="mask mask-squircle w-20 h-20">
-                                  <img src={managerFood.foodImage} />
+                                  <img src={adminFood.foodImage} />
                                 </div>
                               </div>
                               <div>
                                 <div className="text-sm opacity-50">
-                                  ID: {managerFood.foodID}
+                                  ID: {adminFood.foodID}
                                 </div>
                                 <div className="font-bold">
-                                  {managerFood.foodTitle}
+                                  {adminFood.foodTitle}
                                 </div>
                                 <div className="font-bold">
-                                  Price: {managerFood.foodPrice} BDT
+                                  Price: {adminFood.foodPrice} BDT
                                 </div>
                                 <div className="text-sm opacity-50 ">
-                                  Category: {managerFood.foodCategory}
+                                  Category: {adminFood.foodCategory}
                                 </div>
                                 <hr className="opacity-15 my-2" />
                                 <div className="text-sm opacity-50 ">
-                                  Manager Name: {managerFood.managerName}
+                                  Manager Name: {adminFood.managerName}
                                 </div>
                                 <div className="text-sm opacity-50 ">
-                                  Manager Email: {managerFood.managerEmail}
+                                  Manager Email: {adminFood.managerEmail}
                                 </div>
                                 <div className="text-sm opacity-50 ">
-                                  Added On: {managerFood.currentDate}
+                                  Added On: {adminFood.currentDate}
                                 </div>
                               </div>
                             </div>
@@ -106,10 +105,10 @@ const FoodList = () => {
 
                           <td>
                             <div className="text-sm opacity-50">
-                              {managerFood?.requestDate}
+                              {adminFood?.requestDate}
                             </div>
                             <div className="text-sm opacity-50 ">
-                              {managerFood?.deliveryStatus}
+                              {adminFood?.deliveryStatus}
                             </div>
                           </td>
                           <th>
@@ -121,7 +120,9 @@ const FoodList = () => {
                                 Update Food
                               </button>
                               <button
-                                onClick={() => handleDeleteFood(managerFood.foodID)}
+                                onClick={() =>
+                                  handleDeleteFood(adminFood.foodID)
+                                }
                                 className="rounded-lg my-1 bg-[#d83e3e] py-3 px-6 text-white"
                               >
                                 Delete Food
@@ -142,4 +143,4 @@ const FoodList = () => {
   );
 };
 
-export default FoodList;
+export default AdminFoodList;

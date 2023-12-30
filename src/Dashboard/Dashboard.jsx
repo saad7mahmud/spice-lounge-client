@@ -43,7 +43,7 @@ const Dashboard = () => {
               ) : (
                 ""
               )}
-            
+
               {isManager ? (
                 <>
                   <li>
@@ -68,7 +68,7 @@ const Dashboard = () => {
               ) : (
                 ""
               )}
-              {isCashier ? (
+              {isCashier || isAdmin ? (
                 <li>
                   <NavLink to="/dashboard/sale-history">
                     <IoLogoUsd />
@@ -80,12 +80,26 @@ const Dashboard = () => {
               )}
 
               {isAdmin ? (
-                <li>
-                  <NavLink to="/dashboard/all-users">
-                    <IoFastFoodOutline />
-                    All Users
-                  </NavLink>
-                </li>
+                <>
+                  <li>
+                    <NavLink to="/dashboard/all-users">
+                      <IoFastFoodOutline />
+                      All Users
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/manage-food-list">
+                      <IoFastFoodOutline />
+                      Food List
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/manage-order-list">
+                      <IoFastFoodOutline />
+                      Order List
+                    </NavLink>
+                  </li>
+                </>
               ) : (
                 ""
               )}

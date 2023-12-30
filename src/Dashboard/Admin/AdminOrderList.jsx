@@ -1,17 +1,16 @@
-import React from "react";
-import useOrders from "../../Hooks/useOrders";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAdminOrders from "../../Hooks/useAdminOrders";
 
-const MyOrders = () => {
-  const [orders, refetchOrders, isLoadingOrders] = useOrders();
+const AdminOrderList = () => {
+  const [adminOrders, refetchAdminOrders, isLoadingAdminOrders] =
+    useAdminOrders();
   const axiosSecure = useAxiosSecure();
 
-  console.log(orders);
+  console.log(adminOrders);
 
-  // Cancel
-
-  const handleCancel = (foodID) => {
+  // Make Admin
+  const handleDeliver = (foodID) => {
     console.log(foodID);
     Swal.fire({
       title: "Are you sure?",
@@ -20,41 +19,32 @@ const MyOrders = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Cancel",
+      confirmButtonText: "Yes, Deliver",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure
-          .delete(`/orders/${foodID}`)
-          .then((data) => {
-            console.log(data);
-            if (data.status == "200") {
-              Swal.fire({
-                title: "Cancelled!",
-                text: "Order has been cancelled.",
-                icon: "success",
-              });
-              refetchOrders();
-            }
-          })
-          .catch((error) => {
+        axiosSecure.patch(`/orders/${foodID}`).then((data) => {
+          console.log(data);
+          if (data.data.affectedRows > 0) {
             Swal.fire({
-              title: "Error Encountered",
-              text: `${error.message}`,
-              icon: "error",
+              title: "Delivered!",
+              text: "Food has been delivered successfully.",
+              icon: "success",
             });
-          });
+            refetchAdminOrders();
+          }
+        });
       }
     });
   };
 
   return (
     <div>
-      {isLoadingOrders ? (
+      {isLoadingAdminOrders ? (
         "Loading..."
       ) : (
         <>
           <div>
-            All orders:{orders.length}
+            All Orders: {adminOrders.length}
             <div>
               <div className="overflow-x-auto">
                 <table className="table">
@@ -70,38 +60,38 @@ const MyOrders = () => {
                   </thead>
                   <tbody>
                     {/* row 1 */}
-                    {orders.map((order, idx) => (
+                    {adminOrders.map((adminOrder, idx) => (
                       <tr key={idx}>
                         <td>{idx + 1}</td>
                         <td>
                           <div className="flex items-center gap-3">
                             <div className="avatar">
                               <div className="mask mask-squircle w-20 h-20">
-                                <img src={order?.foodImage} />
+                                <img src={adminOrder?.foodImage} />
                               </div>
                             </div>
                             <div>
                               <div className="text-sm opacity-50">
-                                ID: {order?.foodID}
+                                ID: {adminOrder?.foodID}
                               </div>
                               <div className="font-bold">
-                                {order?.foodTitle}
+                                {adminOrder?.foodTitle}
                               </div>
                               <div className="font-bold">
-                                Price: {order?.foodPrice} BDT
+                                Price: {adminOrder?.foodPrice} BDT
                               </div>
                               <div className="text-sm opacity-50 ">
-                                Category: {order?.foodCategory}
+                                Category: {adminOrder?.foodCategory}
                               </div>
                               <hr className="opacity-15 my-2" />
                               <div className="text-sm opacity-50 ">
-                                Manager Name: {order?.managerName}
+                                Manager Name: {adminOrder?.managerName}
                               </div>
                               <div className="text-sm opacity-50 ">
-                                Manager Email: {order?.managerEmail}
+                                Manager Email: {adminOrder?.managerEmail}
                               </div>
                               <div className="text-sm opacity-50 ">
-                                Added On: {order?.foodAddedDate}
+                                Added On: {adminOrder?.foodAddedDate}
                               </div>
                             </div>
                           </div>
@@ -110,40 +100,40 @@ const MyOrders = () => {
                           <div className="flex items-center gap-3">
                             <div className="avatar">
                               <div className="mask mask-squircle w-20 h-20">
-                                <img src={order?.customerImage} />
+                                <img src={adminOrder?.customerImage} />
                               </div>
                             </div>
                             <div>
                               <div className="font-bold">
-                                {order?.customerName}
+                                {adminOrder?.customerName}
                               </div>
                               <div className="text-sm opacity-50 ">
-                                {order?.customerEmail}
+                                {adminOrder?.customerEmail}
                               </div>
                             </div>
                           </div>
                         </td>
                         <td>
                           <div className="text-sm opacity-50">
-                            {order?.requestDate}
+                            {adminOrder?.requestDate}
                           </div>
                           <div className="text-sm opacity-50 ">
-                            {order?.deliveryStatus}
+                            {adminOrder?.deliveryStatus}
                           </div>
                         </td>
                         <th>
                           <span className="flex flex-col">
-                            {order.deliveryStatus == "pending" ? (
+                            {adminOrder.deliveryStatus == "pending" ? (
                               <button
-                                onClick={() => handleCancel(order.foodID)}
-                                className="rounded-lg my-1 bg-[#d83e3e] py-3 px-6 text-white"
+                                onClick={() => handleDeliver(adminOrder.foodID)}
+                                className="rounded-lg my-1 bg-[#008aa2] py-3 px-6 text-white"
                               >
-                                Cancel Order
+                                Deliver
                               </button>
                             ) : (
                               ""
                             )}
-                            {order.deliveryStatus == "delivered" ? (
+                            {adminOrder.deliveryStatus == "delivered" ? (
                               <a className="rounded-lg disabled text-center my-1 bg-[#00a28f] py-3 px-6 text-white">
                                 Delivered
                               </a>
@@ -165,4 +155,4 @@ const MyOrders = () => {
   );
 };
 
-export default MyOrders;
+export default AdminOrderList;
