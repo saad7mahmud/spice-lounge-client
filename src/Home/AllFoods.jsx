@@ -5,6 +5,9 @@ const AllFoods = () => {
   const [foods] = useFoods();
   console.log(foods);
 
+
+  
+
   return (
     <div>
       <h1 className="text-3xl font-medium text-center m-10">

@@ -34,7 +34,6 @@ const FeaturedFood = () => {
                     <p className="">ID: {food.foodID}</p>
                     <p className="">manager Name: {food.managerName}</p>
                     <p className="">manager Mail: {food.managerEmail}</p>
-                    <p className="">Desc: {food.foodDescription}</p>
                     <p className="">Price: {food.foodPrice}</p>
                     <p className="">Cat: {food.foodCategory}</p>
                     <p className="">

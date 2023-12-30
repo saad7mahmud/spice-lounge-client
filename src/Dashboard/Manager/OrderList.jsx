@@ -1,17 +1,16 @@
-import React from "react";
-import useOrders from "../../Hooks/useOrders";
 import Swal from "sweetalert2";
+import useManagerOrders from "../../Hooks/useManagerOrders";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
-const MyOrders = () => {
-  const [orders, refetchOrders, isLoadingOrders] = useOrders();
+const OrderList = () => {
+  const [managerOrders, refetchManagerOrders, isLoadingManagerOrders] =
+    useManagerOrders();
   const axiosSecure = useAxiosSecure();
 
-  console.log(orders);
+  console.log(managerOrders);
 
-  // Delete Users
-
-  const handleCancel = (foodID) => {
+  // Make Admin
+  const handleDeliver = (foodID) => {
     console.log(foodID);
     Swal.fire({
       title: "Are you sure?",
@@ -20,41 +19,32 @@ const MyOrders = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Cancel",
+      confirmButtonText: "Yes, Deliver",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure
-          .delete(`/orders/${foodID}`)
-          .then((data) => {
-            console.log(data);
-            if (data.status == "200") {
-              Swal.fire({
-                title: "Cancelled!",
-                text: "Order has been cancelled.",
-                icon: "success",
-              });
-              refetchOrders();
-            }
-          })
-          .catch((error) => {
+        axiosSecure.patch(`/orders/${foodID}`).then((data) => {
+          console.log(data);
+          if (data.data.affectedRows > 0) {
             Swal.fire({
-              title: "Error Encountered",
-              text: `${error.message}`,
-              icon: "error",
+              title: "Delivered!",
+              text: "Food has been delivered successfully.",
+              icon: "success",
             });
-          });
+            refetchManagerOrders();
+          }
+        });
       }
     });
   };
 
   return (
     <div>
-      {isLoadingOrders ? (
+      {isLoadingManagerOrders ? (
         "Loading..."
       ) : (
         <>
           <div>
-            All orders:{orders.length}
+            All Orders: {managerOrders.length}
             <div>
               <div className="overflow-x-auto">
                 <table className="table">
@@ -70,38 +60,38 @@ const MyOrders = () => {
                   </thead>
                   <tbody>
                     {/* row 1 */}
-                    {orders.map((order, idx) => (
+                    {managerOrders.map((managerOrder, idx) => (
                       <tr key={idx}>
                         <td>{idx + 1}</td>
                         <td>
                           <div className="flex items-center gap-3">
                             <div className="avatar">
                               <div className="mask mask-squircle w-20 h-20">
-                                <img src={order?.foodImage} />
+                                <img src={managerOrder?.foodImage} />
                               </div>
                             </div>
                             <div>
                               <div className="text-sm opacity-50">
-                                ID: {order?.foodID}
+                                ID: {managerOrder?.foodID}
                               </div>
                               <div className="font-bold">
-                                {order?.foodTitle}
+                                {managerOrder?.foodTitle}
                               </div>
                               <div className="font-bold">
-                                Price: {order?.foodPrice} BDT
+                                Price: {managerOrder?.foodPrice} BDT
                               </div>
                               <div className="text-sm opacity-50 ">
-                                Category: {order?.foodCategory}
+                                Category: {managerOrder?.foodCategory}
                               </div>
                               <hr className="opacity-15 my-2" />
                               <div className="text-sm opacity-50 ">
-                                Manager Name: {order?.managerName}
+                                Manager Name: {managerOrder?.managerName}
                               </div>
                               <div className="text-sm opacity-50 ">
-                                Manager Email: {order?.managerEmail}
+                                Manager Email: {managerOrder?.managerEmail}
                               </div>
                               <div className="text-sm opacity-50 ">
-                                Added On: {order?.foodAddedDate}
+                                Added On: {managerOrder?.foodAddedDate}
                               </div>
                             </div>
                           </div>
@@ -110,40 +100,42 @@ const MyOrders = () => {
                           <div className="flex items-center gap-3">
                             <div className="avatar">
                               <div className="mask mask-squircle w-20 h-20">
-                                <img src={order?.customerImage} />
+                                <img src={managerOrder?.customerImage} />
                               </div>
                             </div>
                             <div>
                               <div className="font-bold">
-                                {order?.customerName}
+                                {managerOrder?.customerName}
                               </div>
                               <div className="text-sm opacity-50 ">
-                                {order?.customerEmail}
+                                {managerOrder?.customerEmail}
                               </div>
                             </div>
                           </div>
                         </td>
                         <td>
                           <div className="text-sm opacity-50">
-                            {order?.requestDate}
+                            {managerOrder?.requestDate}
                           </div>
                           <div className="text-sm opacity-50 ">
-                            {order?.deliveryStatus}
+                            {managerOrder?.deliveryStatus}
                           </div>
                         </td>
                         <th>
                           <span className="flex flex-col">
-                            {order.deliveryStatus == "pending" ? (
+                            {managerOrder.deliveryStatus == "pending" ? (
                               <button
-                                onClick={() => handleCancel(order.foodID)}
-                                className="rounded-lg my-1 bg-[#d83e3e] py-3 px-6 text-white"
+                                onClick={() =>
+                                  handleDeliver(managerOrder.foodID)
+                                }
+                                className="rounded-lg my-1 bg-[#008aa2] py-3 px-6 text-white"
                               >
-                                Cancel Order
+                                Deliver
                               </button>
                             ) : (
                               ""
                             )}
-                            {order.deliveryStatus == "delivered" ? (
+                            {managerOrder.deliveryStatus == "delivered" ? (
                               <a className="rounded-lg disabled text-center my-1 bg-[#00a28f] py-3 px-6 text-white">
                                 Delivered
                               </a>
@@ -165,4 +157,4 @@ const MyOrders = () => {
   );
 };
 
-export default MyOrders;
+export default OrderList;

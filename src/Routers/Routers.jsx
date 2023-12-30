@@ -13,6 +13,8 @@ import MyOrders from "./../Dashboard/Customer/MyOrders";
 import FoodList from "./../Dashboard/Manager/FoodList";
 import SaleHistory from "../Dashboard/Cashier/SaleHistory";
 import PrivateRoutes from "./PrivateRoutes";
+import FoodDetails from "./../Pages/FoodDetails";
+import OrderList from "../Dashboard/Manager/OrderList";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +29,12 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/all-foods/:id",
+        element: <FoodDetails></FoodDetails>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:4000/all-foods/${params.id}`),
       },
       {
         path: "/register",
@@ -69,7 +77,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "order-list",
-        element: <FoodList></FoodList>,
+        element: <OrderList></OrderList>,
       },
       // Cashier
       {

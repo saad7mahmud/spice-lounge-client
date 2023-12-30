@@ -31,7 +31,7 @@ const Navbar = () => {
               : ""
           }
         >
-          Home
+          HOME
         </NavLink>
       </li>
       <li>
@@ -45,7 +45,7 @@ const Navbar = () => {
               : ""
           }
         >
-          All Foods
+        ALL FOODS
         </NavLink>
       </li>
       <li>
@@ -59,7 +59,7 @@ const Navbar = () => {
               : ""
           }
         >
-          Dashboard
+          DASHBOARD
         </NavLink>
       </li>
     </>
