@@ -1,18 +1,15 @@
-import React from "react";
 import useOrders from "../../Hooks/useOrders";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const MyOrders = () => {
-  const [orders, refetchOrders, isLoadingOrders] = useOrders();
+  const [orders, refetch, isPending] = useOrders();
   const axiosSecure = useAxiosSecure();
 
-  console.log(orders);
+  // Cancel Order
 
-  // Cancel
-
-  const handleCancel = (foodID) => {
-    console.log(foodID);
+  const handleCancelOrder = (id) => {
+    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -24,16 +21,16 @@ const MyOrders = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
-          .delete(`/orders/${foodID}`)
+          .delete(`/orders/${id}`)
           .then((data) => {
+            refetch();
             console.log(data);
-            if (data.status == "200") {
+            if (data.status == 200) {
               Swal.fire({
                 title: "Cancelled!",
                 text: "Order has been cancelled.",
                 icon: "success",
               });
-              refetchOrders();
             }
           })
           .catch((error) => {
@@ -49,115 +46,119 @@ const MyOrders = () => {
 
   return (
     <div>
-      {isLoadingOrders ? (
+      {isPending ? (
         "Loading..."
       ) : (
         <>
           <div>
-            All orders:{orders.length}
-            <div>
-              <div className="overflow-x-auto">
-                <table className="table">
-                  {/* head */}
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Order Info</th>
-                      <th>Customer Info</th>
-                      <th>Order Time & Status</th>
-                      <th>Order Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* row 1 */}
-                    {orders.map((order, idx) => (
-                      <tr key={idx}>
-                        <td>{idx + 1}</td>
-                        <td>
-                          <div className="flex items-center gap-3">
-                            <div className="avatar">
-                              <div className="mask mask-squircle w-20 h-20">
-                                <img src={order?.foodImage} />
-                              </div>
-                            </div>
-                            <div>
-                              <div className="text-sm opacity-50">
-                                ID: {order?.foodID}
-                              </div>
-                              <div className="font-bold">
-                                {order?.foodTitle}
-                              </div>
-                              <div className="font-bold">
-                                Price: {order?.foodPrice} BDT
-                              </div>
-                              <div className="text-sm opacity-50 ">
-                                Category: {order?.foodCategory}
-                              </div>
-                              <hr className="opacity-15 my-2" />
-                              <div className="text-sm opacity-50 ">
-                                Manager Name: {order?.managerName}
-                              </div>
-                              <div className="text-sm opacity-50 ">
-                                Manager Email: {order?.managerEmail}
-                              </div>
-                              <div className="text-sm opacity-50 ">
-                                Added On: {order?.foodAddedDate}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex items-center gap-3">
-                            <div className="avatar">
-                              <div className="mask mask-squircle w-20 h-20">
-                                <img src={order?.customerImage} />
-                              </div>
-                            </div>
-                            <div>
-                              <div className="font-bold">
-                                {order?.customerName}
-                              </div>
-                              <div className="text-sm opacity-50 ">
-                                {order?.customerEmail}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="text-sm opacity-50">
-                            {order?.requestDate}
-                          </div>
-                          <div className="text-sm opacity-50 ">
-                            {order?.deliveryStatus}
-                          </div>
-                        </td>
-                        <th>
-                          <span className="flex flex-col">
-                            {order.deliveryStatus == "pending" ? (
-                              <button
-                                onClick={() => handleCancel(order.foodID)}
-                                className="rounded-lg my-1 bg-[#d83e3e] py-3 px-6 text-white"
-                              >
-                                Cancel Order
-                              </button>
-                            ) : (
-                              ""
-                            )}
-                            {order.deliveryStatus == "delivered" ? (
-                              <a className="rounded-lg disabled text-center my-1 bg-[#00a28f] py-3 px-6 text-white">
-                                Delivered
-                              </a>
-                            ) : (
-                              ""
-                            )}
-                          </span>
-                        </th>
+            {orders.length == 0 ? (
+              "No Order Found"
+            ) : (
+              <div>
+                All orders:{orders.length}
+                <div className="overflow-x-auto">
+                  <table className="table">
+                    {/* head */}
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Order Info</th>
+                        <th>Customer Info</th>
+                        <th>Order Time & Status</th>
+                        <th>Order Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {/* row 1 */}
+                      {orders.map((order, idx) => (
+                        <tr key={idx}>
+                          <td>{idx + 1}</td>
+                          <td>
+                            <div className="flex items-center gap-3">
+                              <div className="avatar">
+                                <div className="mask mask-squircle w-20 h-20">
+                                  <img src={order?.foodImage} />
+                                </div>
+                              </div>
+                              <div>
+                                <div className="text-sm opacity-50">
+                                  ID: {order?.foodID}
+                                </div>
+                                <div className="font-bold">
+                                  {order?.foodTitle}
+                                </div>
+                                <div className="font-bold">
+                                  Price: {order?.foodPrice} BDT
+                                </div>
+                                <div className="text-sm opacity-50 ">
+                                  Category: {order?.foodCategory}
+                                </div>
+                                <hr className="opacity-15 my-2" />
+                                <div className="text-sm opacity-50 ">
+                                  Manager Name: {order?.managerName}
+                                </div>
+                                <div className="text-sm opacity-50 ">
+                                  Manager Email: {order?.managerEmail}
+                                </div>
+                                <div className="text-sm opacity-50 ">
+                                  Added On: {order?.foodAddedDate}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="flex items-center gap-3">
+                              <div className="avatar">
+                                <div className="mask mask-squircle w-20 h-20">
+                                  <img src={order?.customerImage} />
+                                </div>
+                              </div>
+                              <div>
+                                <div className="font-bold">
+                                  {order?.customerName}
+                                </div>
+                                <div className="text-sm opacity-50 ">
+                                  {order?.customerEmail}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="text-sm opacity-50">
+                              {order?.requestDate}
+                            </div>
+                            <div className="text-sm opacity-50 ">
+                              {order?.deliveryStatus}
+                            </div>
+                          </td>
+                          <th>
+                            <span className="flex flex-col">
+                              {order.deliveryStatus == "pending" ? (
+                                <button
+                                  onClick={() => handleCancelOrder(order.id)}
+                                  className="rounded-lg my-1 bg-[#d83e3e] py-3 px-6 text-white"
+                                >
+                                  Cancel Order
+                                </button>
+                              ) : (
+                                ""
+                              )}
+                              {order.deliveryStatus == "delivered" ? (
+                                <a className="rounded-lg disabled text-center my-1 bg-[#00a28f] py-3 px-6 text-white">
+                                  Delivered
+                                </a>
+                              ) : (
+                                ""
+                              )}
+                            </span>
+                          </th>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </>
       )}
