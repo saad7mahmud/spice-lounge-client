@@ -49,6 +49,7 @@ const Register = () => {
           userRole: "customer",
           timeInMS: currentDateTimeInMs,
           currentDate: currentDate,
+          salary: null,
         };
 
         axiosPublic.post("/users", userInfo).then((res) => {
@@ -143,6 +144,7 @@ const Register = () => {
               userRole: "customer",
               timeInMS: currentDateTimeInMs,
               currentDate: currentDate,
+              salary: null,
             };
             axiosPublic.post("/users", userInfo).then((res) => {
               console.log(res);

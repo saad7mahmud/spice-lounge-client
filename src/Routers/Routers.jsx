@@ -18,6 +18,7 @@ import OrderList from "../Dashboard/Manager/OrderList";
 import AdminFoodList from "../Dashboard/Admin/AdminFoodList";
 import AdminOrderList from "../Dashboard/Admin/AdminOrderList";
 import UpdateFood from './../Dashboard/Manager/UpdateFood';
+import Salary from "../Dashboard/Admin/Salary";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
       {
         path: "all-users",
         element: <AllUsers></AllUsers>,
+      },
+      {
+        path: "salary",
+        element: <Salary></Salary>,
       },
       {
         path: "manage-food-list",

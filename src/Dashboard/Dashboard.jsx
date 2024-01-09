@@ -8,6 +8,8 @@ import {
   IoFastFood,
   IoListOutline,
   IoLogoUsd,
+  IoCashSharp,
+  
 } from "react-icons/io5";
 import useAdmin from "../Hooks/useAdmin";
 import useManager from "../Hooks/useManager";
@@ -85,6 +87,12 @@ const Dashboard = () => {
                     <NavLink to="/dashboard/all-users">
                       <IoFastFoodOutline />
                       All Users
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/salary">
+                      <IoCashSharp />
+                      Salary
                     </NavLink>
                   </li>
                   <li>

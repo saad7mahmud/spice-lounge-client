@@ -1,10 +1,17 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  UNSAFE_useScrollRestoration,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "./AuthProvider";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const Login = () => {
+  UNSAFE_useScrollRestoration("manual");
+
   const { googleSignIn, logIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,6 +54,7 @@ const Login = () => {
           userRole: "customer",
           timeInMS: currentDateTimeInMs,
           currentDate: currentDate,
+          salary: null,
         };
         console.log("users info google", userInfo);
         axiosPublic.post("/users", userInfo).then((res) => {
