@@ -18,7 +18,6 @@ const useOrders = () => {
       return res.data;
     },
   });
-
   return [orders, refetch, isPending];
 };
 

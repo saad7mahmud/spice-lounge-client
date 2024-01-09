@@ -1,11 +1,11 @@
-import React from "react";
-import useManagerFoods from "../../Hooks/useManagerFoods";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useManagerFoods from "./../../Hooks/useManagerFoods";
+import { Link } from "react-router-dom";
 
 const FoodList = () => {
-  const [managerFoods, refetchFoods, isLoadingFoods] = useManagerFoods();
-  console.log(managerFoods);
+  const [managerFoods, refetch] = useManagerFoods();
+
   const axiosSecure = useAxiosSecure();
 
   // Delete Food
@@ -24,14 +24,14 @@ const FoodList = () => {
         axiosSecure
           .delete(`/foods/${foodID}`)
           .then((data) => {
+            refetch();
             console.log(data);
-            if (data.status == "200") {
+            if (data.status == 200) {
               Swal.fire({
                 title: "Deleted!",
                 text: "Food has been deleted.",
                 icon: "success",
               });
-              refetchFoods();
             }
           })
           .catch((error) => {
@@ -45,11 +45,17 @@ const FoodList = () => {
     });
   };
 
+  // Update A Food
+
+  const handleUpdateFood = (foodID) => {
+    // alert(foodID);
+  };
+
   return (
     <div>
       <div>
-        {isLoadingFoods ? (
-          "Loading..."
+        {managerFoods.length == 0 ? (
+          "No Foods Found"
         ) : (
           <>
             <div>
@@ -114,14 +120,22 @@ const FoodList = () => {
                           </td>
                           <th>
                             <span className="flex flex-col">
-                              <button
-                                // onClick={() => handleCancel(order.foodID)}
-                                className="rounded-lg my-1 bg-[#00a28f] py-3 px-6 text-white"
+                              <Link
+                                to={`/dashboard/update-food/${managerFood.foodID}`}
                               >
-                                Update Food
-                              </button>
+                                <button
+                                  onClick={() =>
+                                    handleUpdateFood(managerFood.foodID)
+                                  }
+                                  className="rounded-lg my-1 bg-[#00a28f] py-3 px-6 text-white"
+                                >
+                                  Update Food
+                                </button>
+                              </Link>
                               <button
-                                onClick={() => handleDeleteFood(managerFood.foodID)}
+                                onClick={() =>
+                                  handleDeleteFood(managerFood.foodID)
+                                }
                                 className="rounded-lg my-1 bg-[#d83e3e] py-3 px-6 text-white"
                               >
                                 Delete Food

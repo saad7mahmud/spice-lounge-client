@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const Banner = () => {
   const hoverAnimation = {
     hover: {
-      scale: 1.5, // Scale the image to 110% on hover
+      scale: 0.5, // Scale the image to 110% on hover
       transition: { duration: 0.2 },
     },
     rest: {
@@ -12,21 +12,21 @@ const Banner = () => {
   };
 
   return (
-    <div className="p-2 overflow-hidden">
-      <div data-aos="fade-left" className="mt-10 mb-10 bg-base-200">
-        <div className="hero-content flex-col lg:flex-row-reverse p-10">
+    <div className="p-2  text-center lg:text-left md:text-left">
+      <div>
+        <div className="hero-content flex-col-reverse lg:flex-row-reverse ">
           <motion.img
             initial="rest"
             whileHover="hover"
             variants={hoverAnimation}
             src="https://i.ibb.co/64qMByK/banner.webp"
-            className="max-w-xl w-1/2 rounded-lg "
+            className="max-w-xl  rounded-lg "
           />
-          <div className="w-2/4">
-            <h1 className="text-3xl font-light">
+          <div className="w-full md:w-2/4 lg:w-2/4">
+            <h1 className="text-3xl font-light  bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
               Spice Lounge
               <br />
-              <span className="text-[#ef2b47] font-bold">
+              <span className="text-[#ef2b47] text-3xl md:text-5xl lg:text-7xl font-bold  bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
                 Savor the Moment, Taste the Tradition
               </span>
             </h1>

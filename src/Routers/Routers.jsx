@@ -17,6 +17,7 @@ import FoodDetails from "./../Pages/FoodDetails";
 import OrderList from "../Dashboard/Manager/OrderList";
 import AdminFoodList from "../Dashboard/Admin/AdminFoodList";
 import AdminOrderList from "../Dashboard/Admin/AdminOrderList";
+import UpdateFood from './../Dashboard/Manager/UpdateFood';
 
 export const router = createBrowserRouter([
   {
@@ -92,6 +93,12 @@ export const router = createBrowserRouter([
       {
         path: "order-list",
         element: <OrderList></OrderList>,
+      },
+      {
+        path: "update-food/:id",
+        element: <UpdateFood></UpdateFood>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:4000/all-foods/${params.id}`),
       },
       // Cashier
       {

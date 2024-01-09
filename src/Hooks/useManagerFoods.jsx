@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "./useAxiosPublic";
 import { AuthContext } from "../Auth/AuthProvider";
 import { useContext } from "react";
+import useAxiosSecure from "./useAxiosSecure";
 
 const useManagerFoods = () => {
   const { user } = useContext(AuthContext);
 
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
+
   const {
     data: managerFoods = [],
     refetch,
@@ -15,7 +16,7 @@ const useManagerFoods = () => {
   } = useQuery({
     queryKey: ["managerFoods"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/foods/manager/${user?.email}`);
+      const res = await axiosSecure.get(`/foods/manager/${user?.email}`);
       return res.data;
     },
   });

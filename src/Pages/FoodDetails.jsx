@@ -1,12 +1,18 @@
 // food.js
 
 import React, { useContext } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import {
+  UNSAFE_useScrollRestoration,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
 import { AuthContext } from "../Auth/AuthProvider";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 
 const FoodDetails = () => {
+  UNSAFE_useScrollRestoration("manual");
+
   const { user } = useContext(AuthContext);
   const food = useLoaderData();
   console.log(food);
@@ -41,10 +47,10 @@ const FoodDetails = () => {
   const handleOrder = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      text: "Make sure before placing an order.",
+      icon: "question",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00a28f",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Place Order",
     }).then((result) => {
@@ -83,22 +89,12 @@ const FoodDetails = () => {
   };
 
   return (
-    <div className=" m-10 bg-base-200 rounded-lg  p-8">
+    <div className="max-w-4xl mx-auto m-10 bg-base-200 rounded-lg  p-8">
       <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-3xl  font-semibold">{food.foodTitle}</h1>
-          <div className="flex items-center">
-            <span className="mr-2">Manager: {food.managerName}</span>
-            <img
-              src={food.managerImage}
-              alt={food.managerName}
-              className="w-8 h-8 rounded-full"
-            />
-          </div>
-        </div>
+        <div className="flex items-center justify-between mb-4"></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="mb-8 md:mb-0">
+          <div className=" md:mb-0">
             <img
               src={food.foodImage}
               alt={food.foodTitle}
@@ -108,18 +104,16 @@ const FoodDetails = () => {
           <div>
             <div className="mb-4">
               <p className="text-gray-400">Food ID: {food.foodID}</p>
+              <p className="text-gray-400 text-4xl font-bold uppercase mb-2">
+                {food.foodTitle}
+              </p>
               <p className="text-gray-400">Category: {food.foodCategory}</p>
-              <p className="text-gray-400">Price: {food.foodPrice} BDT</p>
-              <p className="text-gray-400">Added On: {food.currentDate}</p>
+              <p className="">Description: {food.foodDescription}</p>
             </div>
 
-            <p className="mb-6">Description: {food.foodDescription}</p>
-
-            <p className="text-gray-400">Contact Manager:</p>
-            <p className="mb-4">
-              {food.managerName} - {food.managerEmail}
+            <p className="text-gray-400 my-4 text-2xl font-semibold">
+              Price: {food.foodPrice} BDT
             </p>
-
             <button
               onClick={() => handleOrder(food.foodID)}
               className="rounded-lg my-4 bg-[#00a28f] py-3 px-6 text-white"

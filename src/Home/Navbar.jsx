@@ -20,42 +20,42 @@ const Navbar = () => {
 
   const navLinks = (
     <>
-      <li>
+      <li className="font-bold">
         <NavLink
-          to="./"
+          to="/"
           className={({ isActive, isPending }) =>
             isPending
               ? "pending"
               : isActive
-              ? "text-[#ef2b47]  font-bold underline "
+              ? " bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent  underline "
               : ""
           }
         >
           HOME
         </NavLink>
       </li>
-      <li>
+      <li className="font-bold">
         <NavLink
           to="/all-foods"
           className={({ isActive, isPending }) =>
             isPending
               ? "pending"
               : isActive
-              ? "text-[#ef2b47] font-bold  underline "
+              ? " bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent  underline "
               : ""
           }
         >
-        ALL FOODS
+          ALL FOODS
         </NavLink>
       </li>
-      <li>
+      <li className="font-bold">
         <NavLink
           to="/dashboard/profile"
           className={({ isActive, isPending }) =>
             isPending
               ? "pending"
               : isActive
-              ? "text-[#ef2b47]  font-bold underline "
+              ? " bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent underline "
               : ""
           }
         >
@@ -66,7 +66,7 @@ const Navbar = () => {
   );
   return (
     <div>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-300 px-10 py-4 rounded">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -100,8 +100,8 @@ const Navbar = () => {
         <div className="navbar-center  hidden lg:flex">
           <ul className="menu menu-horizontal gap-2 px-1">{navLinks}</ul>
         </div>
-        <div className="navbar-end gap-3">
-          {user ? <p>{user?.displayName}</p> : ""}
+        <div className=" navbar-end gap-3">
+          {user ? <p className=" hidden lg:block">{user?.displayName}</p> : ""}
 
           {user ? (
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">

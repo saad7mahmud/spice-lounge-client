@@ -7,7 +7,6 @@ const MyOrders = () => {
   const axiosSecure = useAxiosSecure();
 
   // Cancel Order
-
   const handleCancelOrder = (id) => {
     console.log(id);
     Swal.fire({
@@ -74,7 +73,7 @@ const MyOrders = () => {
                         <tr key={idx}>
                           <td>{idx + 1}</td>
                           <td>
-                            <div className="flex items-center gap-3">
+                            <div className="flex  items-center gap-3">
                               <div className="avatar">
                                 <div className="mask mask-squircle w-20 h-20">
                                   <img src={order?.foodImage} />
